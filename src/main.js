@@ -20,6 +20,8 @@ if (language.startsWith('zh')) {
     i18n.global.locale = 'en'
 }
 
+document.title = i18n.global.t('title')
+
 app.use(createPinia())
   .use(router)
   .use(ElementPlus)
