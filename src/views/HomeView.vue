@@ -2,6 +2,7 @@
 import {reactive, ref, watch, watchEffect} from 'vue'
 import { Waterfall } from 'vue-waterfall-plugin-next'
 import bezierImg from '@/assets/bezier.png';
+import bezierSfImg from '@/assets/beziersf.png';
 import { useRouter } from 'vue-router'
 import {i18n} from '../locale/i18n.js'
 
@@ -16,7 +17,7 @@ const list = reactive([
   {
     title: 'Bezier Surface',
     url: '/beziersf',
-    img: bezierImg,
+    img: bezierSfImg,
   },
   {
     title: 'Loginsight',
