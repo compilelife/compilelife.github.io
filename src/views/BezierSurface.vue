@@ -93,7 +93,7 @@ const goBack = ()=>{
             <el-button @click="addCol">{{ $t('beziersf.addCol') }}</el-button>
           </el-form-item>
           <el-form-item :label='$t("beziersf.tessellation")'>
-            <el-input-number v-model="count" :min="1" :max="10" controls-position="right"/>
+            <el-input-number v-model="count" :min="1" :max="4" controls-position="right"/>
           </el-form-item>
           <el-form-item :label='$t("beziersf.firstDivide")'>
             <el-space>
