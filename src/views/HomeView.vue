@@ -9,8 +9,13 @@ const router = useRouter()
 
 const list = reactive([
   {
-    title: 'Bezier Curve',
+    title: '',
     url: '/bezier',
+    img: bezierImg,
+  },
+  {
+    title: 'Bezier Surface',
+    url: '/beziersf',
     img: bezierImg,
   },
   {
@@ -24,6 +29,8 @@ watchEffect(()=>{
   for (let i = 0; i < list.length; i++) {
     list[i].desc = i18n.global.t(`desc.i${i}`)
   }
+  list[0].title = i18n.global.t('bezier.title')
+  list[1].title = i18n.global.t('beziersf.title')
 })
 
 const breakpoints =ref({

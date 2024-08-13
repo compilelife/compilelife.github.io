@@ -14,6 +14,11 @@ const router = createRouter({
       name: 'bezier',
       component: ()=>import('@/views/Bezier.vue')
     },
+    {
+      path: '/beziersf',
+      name: 'beziersf',
+      component: ()=>import('@/views/BezierSurface.vue')
+    },
   ]
 })
 

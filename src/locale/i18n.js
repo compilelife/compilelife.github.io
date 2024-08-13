@@ -6,7 +6,8 @@ export const i18n = createI18n({
     en: {
       desc: {
         i0: 'Learn how to draw Bézier curves through animations.',
-        i1: 'Quickly analyze large log files',
+        i1: 'Learn how to draw Bézier surface through animations.',
+        i2: 'Quickly analyze large log files',
       },
       title: "Compilelife's Toolbox",
       bezier: {
@@ -25,11 +26,23 @@ export const i18n = createI18n({
         animateInfoTitle: 'Animation Step: {0} / {1}',
         curIters: 'Currrent iteration: {0}'
       },
+      beziersf: {
+        title: 'Bézier Surface',
+        grid: 'Grid',
+        addRow: '+Row',
+        addCol: '+Col',
+        tessellation: 'Tessellation',
+        firstDivide: 'First Divide',
+        divide: 'Following Divide',
+        showGrid: 'Show Grid',
+        usageDetail: 'Drag control points to change the surface shape. Use button to add control points'
+      }
     },
     zh: {
       desc: {
         i0: '通过动画理解贝塞尔曲线如何绘制',
-        i1: '快速分析大文件日志'
+        i1: '通过动画理解贝塞尔曲面如何绘制',
+        i2: '快速分析大文件日志'
       },
       title: '瞎猫的工具箱',
       bezier: {
@@ -48,6 +61,17 @@ export const i18n = createI18n({
         animateInfoTitle: '动画步数: {0} / {1}',
         curIters: '迭代次数：{0}'
       },
+      beziersf: {
+        title: '贝塞尔曲面',
+        grid: '网格',
+        addRow: '加一行',
+        addCol: '加一列',
+        tessellation: '网格细分',
+        firstDivide: '首次细分',
+        divide: '后续细分',
+        showGrid: '显示网格线',
+        usageDetail: '拖动控制点改变曲面形状；使用按钮增加控制点行列数'
+      }
     }
   }
 })
