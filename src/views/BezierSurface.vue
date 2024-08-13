@@ -3,7 +3,7 @@ import { ref, onMounted, watch, reactive } from 'vue';
 import { BezierSurface, PointMatrix } from '../tools/bezierSurface.js'
 import { ElNotification } from 'element-plus'
 import {i18n} from '../locale/i18n.js'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
 const firstDivide = reactive({row:3, col:3})
@@ -15,24 +15,27 @@ const count = ref(1)
 
 let bezier = null
 let points = null
+const query = useRoute().query
 
-new URLSearchParams(location.search).forEach((value, key) => {
-  if (key === 'firstDivide') {
-    const {row,col} = JSON.parse(value)
-    firstDivide.row =row
-    firstDivide.col =col
-  } else if (key === 'divide') {
-    const {row,col} = JSON.parse(value)
-    divide.row =row
-    divide.col =col
-  } else if (key === 'showGrid') {
-    showGrid.value = value=='true'
-  } else if (key === 'points') {
-    points = BezierSurface.load(value)
-  } else if (key === 'count') {
-    count.value = parseInt(value)
-  }
-})
+if (query.firstDivide) {
+  const {row,col} = JSON.parse(query.firstDivide)
+  firstDivide.row =row
+  firstDivide.col =col
+} 
+if (query.divide) {
+  const {row,col} = JSON.parse(query.divide)
+  divide.row =row
+  divide.col =col
+} 
+if (query.showGrid) {
+  showGrid.value = query.showGrid=='true'
+} 
+if (query.points) {
+  points = BezierSurface.load(query.points)
+} 
+if (query.count) {
+  count.value = parseInt(query.count)
+}
 
 onMounted(() => {
   bezier = new BezierSurface('#canvas',
@@ -55,7 +58,7 @@ const animate = () => {
 }
 const share = () => {
   const points = bezier.save()
-  const url = `${window.location.origin}/beziersf?firstDivide=${JSON.stringify(firstDivide)}&divide=${JSON.stringify(divide)}&showGrid=${showGrid.value}&points=${points}&count=${count.value}`
+  const url = `${window.location.origin}/#/beziersf?firstDivide=${JSON.stringify(firstDivide)}&divide=${JSON.stringify(divide)}&showGrid=${showGrid.value}&points=${points}&count=${count.value}`
   navigator.clipboard.writeText(url)
 
   ElNotification({

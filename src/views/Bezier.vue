@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { BezierCurve } from '../tools/bezier.js'
 import { ElNotification } from 'element-plus'
 import {i18n} from '../locale/i18n.js'
-import { useRouter } from 'vue-router'
+import { useRouter , useRoute} from 'vue-router'
 
 const router = useRouter()
 const algorithm = ref('formula')
@@ -15,17 +15,19 @@ const animDesc = ref('')
 let bezier = null
 let points = []
 
-new URLSearchParams(location.search).forEach((value, key) => {
-  if (key === 'algorithm') {
-    algorithm.value = value
-  } else if (key === 'tstep') {
-    tstep.value = parseFloat(value)
-  } else if (key === 'iters') {
-    iters.value = parseInt(value)
-  } else if (key === 'points') {
-    points = BezierCurve.load(value)
-  }
-})
+const query = useRoute().query
+if (query.algorithm) {
+  algorithm.value = query.algorithm
+}
+if (query.tstep) {
+  tstep.value = parseFloat(query.tstep)
+}
+if (query.iters) {
+  iters.value = parseInt(query.iters)
+}
+if (query.points) {
+  points = BezierCurve.load(query.points)
+}
 
 onMounted(() => {
   bezier = new BezierCurve('#canvas',
@@ -48,7 +50,7 @@ const animate = () => {
 }
 const share = () => {
   const points = bezier.save()
-  const url = `${window.location.origin}/bezier?algorithm=${algorithm.value}&tstep=${tstep.value}&iters=${iters.value}&points=${points}`
+  const url = `${window.location.origin}/#/bezier?algorithm=${algorithm.value}&tstep=${tstep.value}&iters=${iters.value}&points=${points}`
   navigator.clipboard.writeText(url)
 
   ElNotification({
