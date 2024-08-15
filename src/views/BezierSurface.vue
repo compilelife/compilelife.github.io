@@ -16,6 +16,16 @@ const count = ref(1)
 let bezier = null
 let points = null
 const query = useRoute().query
+class DrawnPoint {
+  constructor(row,col,p) {
+    this.row = row
+    this.col = col
+    this.key = `${row}-${col}`
+    this.p = p
+  }
+}
+const selectedPoint = ref(new DrawnPoint(0,0,{x:0,y:0}))
+const availPoints = ref([])
 
 if (query.firstDivide) {
   const {row,col} = JSON.parse(query.firstDivide)
@@ -37,6 +47,22 @@ if (query.count) {
   count.value = parseInt(query.count)
 }
 
+const updateDrawnPoints = ()=> {
+  const points = bezier.ps.points
+  const ret = []
+  for (let i = 0; i < points.length; i++) {
+    const row = points[i]
+    for (let j = 0; j < row.length; j++) {
+      const p = points[i][j]
+      ret.push(new DrawnPoint(i, j, p))
+      if (i == selectedPoint.value.row && j == selectedPoint.value.col) {
+        selectedPoint.value.p = p
+      }
+    }
+  }
+  availPoints.value = ret
+}
+
 onMounted(() => {
   bezier = new BezierSurface('#canvas',
     {
@@ -47,6 +73,7 @@ onMounted(() => {
       animDesc.value = desc
     },
     points)
+    updateDrawnPoints()
 })
 
 watch([firstDivide, divide, count, showGrid], () => {
@@ -67,11 +94,18 @@ const share = () => {
   })
 }
 
+const redraw = () => {
+  bezier.recreateSvgControlPoints()
+  bezier.redraw()
+}
+
 const addRow = () => {
   bezier.addRow()
+  updateDrawnPoints()
 }
 const addCol = () => {
   bezier.addCol()
+  updateDrawnPoints()
 }
 
 const goBack = ()=>{
@@ -118,6 +152,17 @@ const goBack = ()=>{
           <el-form-item>
             <el-button type="primary" @click="animate">{{$t("bezier.playAnim")}}</el-button>
             <el-button @click="share">{{ $t("bezier.share") }}</el-button>
+          </el-form-item>
+          <el-form-item :label='$t("beziersf.pointCoord")'>
+            <el-select v-model="selectedPoint" value-key="key" style="width: 165px;">
+              <el-option v-for="p in availPoints" :key="p.key" :label="`P[${p.row}, ${p.col}]`" :value="p"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-space>
+              <el-input-number v-model="selectedPoint.p.x" :min="0" :max="800" controls-position="right" @change="redraw" style="width: 120px;"/>
+              <el-input-number v-model="selectedPoint.p.y" :min="0" :max="600" controls-position="right" @change="redraw" style="width: 120px;"/>
+            </el-space>
           </el-form-item>
         </el-form>
         <p class="usage">

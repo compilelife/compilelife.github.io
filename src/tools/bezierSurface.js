@@ -238,7 +238,8 @@ export class BezierSurface {
             point.x = e.detail.box.cx
             point.y = e.detail.box.cy
             this.redraw()
-
+            circle.coordText = this.curveG.text(`[${point.i}, ${point.j}](${point.x.toFixed(0)}, ${point.y.toFixed(0)})`)
+            .move(point.x - 10, point.y + 20)
           })
           .on('mouseenter', () => {
             circle.fill('#f89898')
@@ -257,7 +258,7 @@ export class BezierSurface {
   * @param meshes {Mesh[]}
   * @param divide {number} 每次分割成dividexdivide
   */
-  meshDivide(meshes, nu = 2, nv = nu) {
+  meshDivide(meshes, nv = 2, nu = nv) {
     let ret = []
     for (const mesh of meshes) {
       const lu = mesh.uvPoints[0].u

@@ -35,7 +35,8 @@ export const i18n = createI18n({
         firstDivide: 'First Divide',
         divide: 'Following Divide',
         showGrid: 'Show Grid',
-        usageDetail: 'Drag control points to change the surface shape. Use button to add control points'
+        usageDetail: 'Drag control points to change the surface shape. Use button to add control points',
+        pointCoord: 'Point Coordinates',
       }
     },
     zh: {
@@ -70,7 +71,8 @@ export const i18n = createI18n({
         firstDivide: '首次细分',
         divide: '后续细分',
         showGrid: '显示网格线',
-        usageDetail: '拖动控制点改变曲面形状；使用按钮增加控制点行列数'
+        usageDetail: '拖动控制点改变曲面形状；使用按钮增加控制点行列数',
+        pointCoord: '点坐标'
       }
     }
   }
