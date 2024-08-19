@@ -49,6 +49,9 @@ class Animator {
     this.reset()
   }
   reset() {
+    /**
+     * @type {AnimateFrame[]}
+     */
     this.frames = []
     this.n = 0
   }
@@ -140,7 +143,7 @@ export class PointMatrix {
   * @param uv {UVPoint}
   * @returns [Point]
 */
-function bezierSurfacePoint(points, uv) {
+export function bezierSurfacePoint(points, uv) {
   const ni = points.length - 1
   const nj = points[0].length - 1
   const u = uv.u
@@ -155,6 +158,39 @@ function bezierSurfacePoint(points, uv) {
     }
   }
   return ret
+}
+
+export class BezierSurfaceWithUV {
+  constructor(node, uvPoints, points) {
+    this.svg = SVG(node)
+    this.curveG = this.svg.group()
+    this.controlG = this.svg.group()
+    this.ps = new PointMatrix(points)
+    this.uvPoints = uvPoints
+    this.recreateSvgControlPoints()
+    this.redraw()
+  }
+
+  recreateSvgControlPoints() {
+    this.controlG.clear()
+
+    for (let i = 0; i < this.ps.points.length; i++) {
+      const r = this.ps.points[i]
+      for (let j = 0; j < r.length; j++) {
+        const point = r[j]
+        point.i = i
+        point.j = j
+        this.controlG.circle(20).fill('#ff0000').center(point.x, point.y)
+      }
+    }
+  }
+
+  redraw() {
+    const screenPoints = this.uvPoints.map(uv=>bezierSurfacePoint(this.ps.points, uv))
+    screenPoints.forEach(p=>{
+      this.curveG.circle(10).fill('#000000').center(p.x, p.y)
+    })
+  }
 }
 
 

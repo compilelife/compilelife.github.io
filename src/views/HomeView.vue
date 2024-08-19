@@ -3,6 +3,7 @@ import {reactive, ref, watch, watchEffect} from 'vue'
 import { Waterfall } from 'vue-waterfall-plugin-next'
 import bezierImg from '@/assets/bezier.png';
 import bezierSfImg from '@/assets/beziersf.png';
+import latticeImg from '@/assets/lattice.png';
 import { useRouter } from 'vue-router'
 import {i18n} from '../locale/i18n.js'
 
@@ -23,6 +24,11 @@ const list = reactive([
     title: 'Loginsight',
     url: 'https://www.loginsight.top/',
     img: 'https://s1.ax1x.com/2022/10/12/xU5DE9.png',
+  },
+  {
+    title: '',
+    url: '/lattice',
+    img: latticeImg,
   }
 ])
 
@@ -32,6 +38,7 @@ watchEffect(()=>{
   }
   list[0].title = i18n.global.t('bezier.title')
   list[1].title = i18n.global.t('beziersf.title')
+  list[3].title = i18n.global.t('lattice.title')
 })
 
 const breakpoints =ref({
